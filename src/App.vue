@@ -1,41 +1,34 @@
 <script setup>
-import { ref, reactive } from 'vue'
+import { ref } from 'vue'
+import socksGreenImage from './assets/images/socks_green.jpeg'
 
-//setup uses composition API - think of it's equivalent as React Hooks 
+const product = ref('Socks')
+const image = ref(socksGreenImage)
+const inStock = ref(true)
 
-//(hooks = Composables in Vue) start variable name with use
-const useChangeWithDelay = function (state, newVal, delay) {
-  setTimeout(() => {
-  state.value = newVal //  value property used for both read and write eq. to React [state,setState]
-}, delay)
-}
-
-//initializing ref (like React state)
-const product = ref('Socks') //ref is  equivalent to React state
-
-//initializing reactive (alt state method) - intended for object type data
-//use reactive if a lot of related data - group in same object
-const rProduct = reactive({ name: 'RSocks' })
-
-//using reactive to set state in Vue - intended for object type data
-setTimeout(() => {
-  rProduct.name = 'New RSocks'
-}, 2000)
-
-
-//call the new composable
-useChangeWithDelay(product,'New Socks',1000)
+//used for example else-if example in template below
+// const inventory =ref(8)
 
 </script>
 
 <template>
-  <!--initializing state with ref - you don't need .value-->
-  <h1>{{ product }}</h1>
+  <div class="nav-bar"></div>
+  <div class="product-display">
+    <div class="product-container">
+      <div class="product-image">
+        <img v-bind:src="image" />
+        <!--v-bind shorthand is :  -->
+      </div>
+      <div class="product-info">
+        <h1>{{ product }}</h1>
+        <p v-if=inStock>In Stock</p>
+        <p v-else>OUt of Stock</p>
 
-  <!-- {{ product }} equivalent to React {product}; no need to use .value as it is automatically added -->
-
-  <!--initializing state with reactive - you need .name -->
-  <h2>{{ rProduct.name }}</h2>
-
-
+        <!-- this example demonstrates using else ifs -->
+        <!-- <p v-if="inventory > 10">In Stock</p>
+        <p v-else-if="inventory <=10 && inventory >0">Almost sold out!</p>
+        <p v-else>Out of Stock</p> -->
+      </div>
+    </div>
+  </div>
 </template>
